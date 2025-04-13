@@ -3,27 +3,26 @@
 
 #include <string>
 #include <vector>
-#include <map>
-
+#include <unordered_map>
 using namespace std;
-
-struct Candidate {
-    string name;
-    int votes;
-};
 
 class VotingSystem {
 public:
-    VotingSystem();
     void addCandidate(const string& candidateName);
     void castVote(const string& voterID, const string& candidateName);
     void displayResults() const;
 
 private:
+    struct Candidate {
+        string name;
+        int voteCount;
+    };
+
     vector<Candidate> candidates;
-    vector<string> voters; // List of voter IDs who already voted
+    unordered_map<string, bool> voterRegistry;
 
     bool hasVoted(const string& voterID) const;
+    Candidate* findCandidate(const string& candidateName);
 };
 
-#endif // VOTING_H
+#endif
